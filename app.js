@@ -10,7 +10,7 @@ const { where } = require('./models/models');
 //function that connects to the database collection
 function mongoDbConnector ()
 {
-    mongoose.connect("mongodb+srv://siya:daboss@cluster0.syorgvs.mongodb.net/finalTask?retryWrites=true&w=majority", (err) => {
+    mongoose.connect("/* add your mongodb file link here... */", (err) => {
         if (err) throw err;
         else console.log("Connection valid");
     });
