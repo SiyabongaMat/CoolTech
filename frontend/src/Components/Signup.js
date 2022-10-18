@@ -1,4 +1,5 @@
 import React from 'react';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 
 class Signup extends React.Component
 {
@@ -6,14 +7,28 @@ class Signup extends React.Component
     {
         return (
             <div>
-                <h2>Create new account</h2>
-                <form onSubmit={ this.props.signUpHandle }>
-                    <label>Enter your name: </label>
-                    <input type='text' name='usr'></input>
-                    <label>Enter your password: </label>
-                    <input type='password' name='pwd'></input>
-                    <input type='submit' value='Submit'></input>
-                </form>
+                <h2 style={{'textAlign': 'center'}}>Create new account</h2>
+                <Form onSubmit={ this.props.signUpHandle } style={{'marginLeft': '250px'}}>
+                    <Form.Group as={Row} className='mb-3'>
+                        <Form.Label column sm={2}>Name</Form.Label>
+                        <Col sm={5}>
+                            <Form.Control type='text' name='usr'></Form.Control>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className='mb-3'>
+                        <Form.Label column sm={2}>Password</Form.Label>
+                        <Col sm={5}>
+                            <Form.Control type='password' name='pwd'></Form.Control>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className='mb-3'>
+                        <Col sm={{ span: 10, offset: 2 }}>
+                            <Button type='submit'>Submit</Button>
+                        </Col>
+                    </Form.Group>
+                </Form>
             </div>
         );
     }

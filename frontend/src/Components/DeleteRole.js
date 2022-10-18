@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 class DeleteRoles extends React.Component
 {
@@ -10,23 +11,42 @@ class DeleteRoles extends React.Component
         {
             return (
                 <div>
-                    <h1>{ message.msg }</h1>
-                    <h2>Delete Division from OU</h2>
-                    <fieldset>
-                        <form onSubmit={ this.props.deleteOu }>
-                            <label>Enter username of user to update: </label>
-                            <input type='text' name='username'></input>
-                            <fieldset>
-                            <legend>Select OU to delete</legend>
-                                <label htmlFor='role-a'> <input onChange={ this.props.delOu } id='role-a' type='radio' name='ou' value='News Management'></input> News Management </label>
-                                <label htmlFor='role-b'> <input onChange={ this.props.delOu } id='role-b' type='radio' name='ou' value='Software Reviews'></input> Software Reviews </label>
-                                <label htmlFor='role-c'> <input onChange={ this.props.delOu } id='role-c' type='radio' name='ou' value='Hardware Reviews'></input> Hardware Reviews </label>
-                                <label htmlFor='role-d'> <input onChange={ this.props.delOu } id='role-d' type='radio' name='ou' value='Opinion Pieces'></input> Opinion Pieces </label>
-                            </fieldset>
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                    </fieldset>
-                    <h3>{ this.props.message.msg }</h3>
+                    <h1 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>{ message.msg }</h1>
+                    <h2 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>Delete Division from OU</h2>
+
+                    <Form onSubmit={ this.props.deleteOu } style={{'marginLeft': '50px'}}>
+
+                        <Form.Group as={Row} className='mb-3'>
+                            <Form.Label column sm={3}>Enter username of user to update: </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control type='text' name='username'></Form.Control>
+                            </Col>
+                        </Form.Group>
+
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Select OU to delete</Form.Label>
+                                    <Col sm={3}>
+                                        <Form.Check onChange={ this.props.delOu } label='News Management' type='radio' name='ou' value='News Management'></Form.Check>
+                                        <Form.Check onChange={ this.props.delOu } label='Software Reviews' type='radio' name='ou' value='Software Reviews'></Form.Check>
+                                        <Form.Check onChange={ this.props.delOu } label='Hardware Reviews' type='radio' name='ou' value='Hardware Reviews'></Form.Check>
+                                        <Form.Check onChange={ this.props.delOu } label='Opinion Pieces' type='radio' name='ou' value='Opinion Pieces'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
+
+                        <Form.Group as={Row} className='mb-3'>
+                            <Col sm={{ span: 10, offset: 3 }}>
+                                <Button type='submit'>Submit</Button>
+                            </Col>
+                        </Form.Group>
+
+                    </Form>
+
+                    {this.props.message &&
+                        <Alert variant="info">{ this.props.message.msg }</Alert>
+                    }
+
                 </div>
             )
         }
@@ -34,7 +54,7 @@ class DeleteRoles extends React.Component
         {
             return (
                 <div>
-                    <h3>{ message.msg }</h3>
+                    <Alert variant="danger">{ message.msg }</Alert>
                 </div>
             )
         }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 class ChangeRoles extends React.Component
 {
@@ -10,36 +11,72 @@ class ChangeRoles extends React.Component
         if (status === 200)
         {
             return (
-                <div>
-                    <h1>{ msg.msg }</h1>
-                    <h2>Change user permissions</h2>
-                    <fieldset>
-                        <form onSubmit={ this.props.managerChange }>
-                            <label>Enter username of user to update: </label>
-                            <input type='text' name='username'></input>
-                            <fieldset>
-                            <legend>Change user manager status: </legend>
-                                <label htmlFor='managertrue'> <input onChange={ this.props.managerRadioChange } type='radio' id='managertrue' name='manager' value='true'></input> True </label>
-                                <label htmlFor='managerfalse'> <input onChange={ this.props.managerRadioChange } type='radio' id='managerfalse' name='manager' value='false'></input> False </label>
-                            </fieldset>
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                        <h4>{ this.props.managerMessage.msg }</h4>
-                    </fieldset>
+                <div style={{'marginTop': '25px'}}>
+                    <h1 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>{ msg.msg }</h1>
+                    <h2 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>Change user permissions</h2>
 
-                    <fieldset>
-                        <form onSubmit={ this.props.adminChange }>
-                            <label>Enter username of user to update: </label>
-                            <input type='text' name='username'></input>
-                            <fieldset>
-                            <legend>Change user admin status: </legend>
-                                <label htmlFor='admintrue'> <input onChange={ this.props.adminRadioChange } type='radio' id='admintrue' name='admin' value='true'></input> True </label>
-                                <label htmlFor='adminfalse'> <input onChange={ this.props.adminRadioChange } type='radio' id='adminfalse' name='admin' value='false'></input> False </label>
-                            </fieldset>
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                        <h4>{ this.props.adminMessage.msg }</h4>
-                    </fieldset>
+                    <Form onSubmit={ this.props.managerChange } style={{'marginLeft': '50px'}}>
+
+                        <Form.Group as={Row} className='mb-3'>
+                            <Form.Label column sm={3}>Enter username of user to update: </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control type='text' name='username'></Form.Control>
+                            </Col>
+                        </Form.Group>
+
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Change user manager status: </Form.Label>
+                                    <Col sm={6}>
+                                        <Form.Check onChange={ this.props.managerRadioChange } label='True' type='radio' name='manager' value='true'></Form.Check>
+                                        <Form.Check onChange={ this.props.managerRadioChange } label='False' type='radio' name='manager' value='false'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
+                        
+                        <Form.Group as={Row} className='mb-3'>
+                            <Col sm={{ span: 10, offset: 3 }}>
+                                <Button type='submit'>Submit</Button>
+                            </Col>
+                        </Form.Group>
+
+                    </Form>
+
+                    {this.props.managerMessage &&
+                        <Alert variant="info">{ this.props.managerMessage.msg }</Alert>
+                    }
+
+                    <Form onSubmit={ this.props.adminChange } style={{'marginLeft': '50px'}}>
+
+                        <Form.Group as={Row} className='mb-3'>
+                            <Form.Label column sm={3}>Enter username of user to update: </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control type='text' name='username'></Form.Control>
+                            </Col>
+                        </Form.Group>
+
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Change user admin status: </Form.Label>
+                                    <Col sm={6}>
+                                        <Form.Check onChange={ this.props.adminRadioChange } label='True' type='radio' name='admin' value='true'></Form.Check>
+                                        <Form.Check onChange={ this.props.adminRadioChange } label='False' type='radio'  name='admin' value='false'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
+                        
+                        <Form.Group as={Row} className='mb-3'>
+                            <Col sm={{ span: 10, offset: 3 }}>
+                                <Button type='submit'>Submit</Button>
+                            </Col>
+                        </Form.Group>
+
+                    </Form>
+
+                    {this.props.adminMessage &&
+                        <Alert variant="info">{ this.props.adminMessage.msg }</Alert>
+                    }
+
                 </div>
             );
         }
@@ -47,7 +84,7 @@ class ChangeRoles extends React.Component
         {
             return (
                 <div>
-                    <h3>{ msg.msg }</h3>
+                    <Alert variant="danger">{ msg.msg }</Alert>
                 </div>
             )
         }

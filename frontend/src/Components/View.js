@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 class ViewDivisions extends React.Component
 {
@@ -11,38 +12,40 @@ class ViewDivisions extends React.Component
         if (status === 200)
         {
             return (
-                <div>
-                    <h1>{ res.msg }</h1>
-                    <fieldset>
-                        <form onSubmit={ this.props.divisionView }>
-                            <fieldset>
-                                <legend>Select division repository to views: </legend>
-                                <label htmlFor='writ'> <input onChange={ this.props.divChange } type='radio' name='division' value='Writing'></input> Writing </label>
-                                <label htmlFor='edit'> <input onChange={ this.props.divChange } type='radio' name='division' value='Editing'></input> Editing </label>
-                                <label htmlFor='publish'> <input onChange={ this.props.divChange } type='radio' name='division' value='Publishing'></input> Publishing </label>
-                                <label htmlFor='fin'> <input onChange={ this.props.divChange } type='radio' name='division' value='Finance'></input> Finance </label>
-                                <label htmlFor='it'> <input onChange={ this.props.divChange } type='radio' name='division' value='IT'></input> IT </label>
-                                <label htmlFor='content'> <input onChange={ this.props.divChange } type='radio' name='division' value='Content Manager'></input> Content Manager </label>
-                                <label htmlFor='social'> <input onChange={ this.props.divChange } type='radio' name='division' value='Social Media'></input> Social Media </label>
-                                <label htmlFor='market'> <input onChange={ this.props.divChange } type='radio' name='division' value='Marketing'></input> Marketing </label>
-                                <label htmlFor='graphic'> <input onChange={ this.props.divChange } type='radio' name='division' value='Graphics'></input> Graphics </label>
-                                <label htmlFor='analyst'> <input onChange={ this.props.divChange } type='radio' name='division' value='Business Analyst'></input> Business Analyst </label>
-                            </fieldset>
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                    </fieldset>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody style={{'backgroundColor': 'blue'}}>
-                            <tr>
-                                <td>{ out }</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div style={{'marginLeft': '50px', 'marginTop': '25px'}}>
+                    <h1 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>{ res.msg }</h1>
+                    <Form onSubmit={ this.props.divisionView }>
+
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Select division repository to views: </Form.Label>
+                                    <Col sm={3}>
+                                        <Form.Check onChange={ this.props.divChange } label='Writing' type='radio' name='division' value='Writing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Editing' type='radio' name='division' value='Editing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Publishing' type='radio' name='division' value='Publishing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Finance' type='radio' name='division' value='Finance'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='IT' type='radio' name='division' value='IT'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Content Manager' type='radio' name='division' value='Content Manager'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Social Media' type='radio' name='division' value='Social Media'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Marketting' type='radio' name='division' value='Marketing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Graphics' type='radio' name='division' value='Graphics'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Business Analyst' type='radio' name='division' value='Business Analyst'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
+
+                        <Form.Group as={Row} className='mb-3'>
+                            <Col sm={{ span: 10, offset: 3 }}>
+                                <Button type='submit'>Submit</Button>
+                            </Col>
+                        </Form.Group>
+
+                    </Form>
+
+                    {this.props.output &&
+                        <Alert>{ out }</Alert>
+                    }
+
                 </div>
             );
         }

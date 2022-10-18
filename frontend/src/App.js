@@ -12,7 +12,9 @@ import DeleteRoles from './Components/DeleteRole';
 import AddOu from './Components/Insert';
 import ChangeRoles from './Components/ChangeRoles';
 import ViewDivisions from './Components/View';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Nav, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 class App extends React.Component
 {
@@ -61,18 +63,18 @@ class App extends React.Component
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.checkManager = this.checkManager.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleCredentialUpdate = this.handleCredentialUpdate.bind(this);
     this.checkAdmin = this.checkAdmin.bind(this);
     this.handleNewsChange = this.handleNewsChange.bind(this);
     this.handleSoftwareChange = this.handleSoftwareChange.bind(this);
-    this.adminSubmit = this.adminSubmit.bind(this);
+    this.addNewRoles = this.addNewRoles.bind(this);
     this.handleHardwareChange = this.handleHardwareChange.bind(this);
     this.handleOpinionChange = this.handleOpinionChange.bind(this);
     this.handleDivisionChange = this.handleDivisionChange.bind(this);
     this.handleOuChange = this.handleOuChange.bind(this);
-    this.handleUpdateSubmit = this.handleUpdateSubmit.bind(this);
+    this.handleDivisionSubmit = this.handleDivisionSubmit.bind(this);
     this.ouDelChange = this.ouDelChange.bind(this);
-    this.handleOuSubmit = this.handleOuSubmit.bind(this);
+    this.handleOuDelete = this.handleOuDelete.bind(this);
     this.adminInsertRole = this.adminInsertRole.bind(this);
     this.adminUpdateRole = this.adminUpdateRole.bind(this);
     this.adminDeleteRole = this.adminDeleteRole.bind(this);
@@ -104,24 +106,6 @@ class App extends React.Component
       },
       body: JSON.stringify(obj)
     }).then(res => res.json()).then(data => this.setState({ divisionOutput: data }));
-  }
-
-  divisionSelected (e)
-  {
-    //if radio button is clicked 'onchange', the value is set to state and used to call the api in the method above
-    if (e.target.checked)
-      this.setState({ checkedDiv: e.target.value });
-  }
-
-  //both 'showDivisionCreds' and 'editCredsBtn' are set contrary to their state value onclick
-  showDivisionCreds ()
-  {
-    this.setState(prevState => ({ viewcredbtn: !prevState.viewcredbtn }))
-  }
-
-  editCredsBtn ()
-  {
-    this.setState(prevState => ({ updatecredbtn: !prevState.updatecredbtn }))
   }
 
   //code below changes a users' admin status
@@ -161,26 +145,6 @@ class App extends React.Component
     }).then(res => res.json()).then(data => this.setState({ managermsg: data }));
   }
 
-  handleAdminPermission (e)
-  {
-    //onchange of radio button, the checked value is set to state
-    if (e.target.checked)
-      this.setState({ adminperm: e.target.value });
-  }
-
-  handleManagerPermission (e)
-  {
-    //onchange of radio button, the checked value is set to state
-    if (e.target.checked)
-      this.setState({ managerperm: e.target.value });
-  }
-
-  //onclick of button, state is set opposite its value for conditional rendering
-  permissionsBtn ()
-  {
-    this.setState(prevState => ({ permissionbtn: !prevState.permissionbtn }));
-  }
-
   handleInsertOu (e)
   {
     //function to update user record with new OU
@@ -200,30 +164,7 @@ class App extends React.Component
     }).then(res => res.json()).then(data => this.setState({ insertOuMsg: data }));
   }
 
-  handleOuSelection (e)
-  {
-    //onchange, the ou selected from radio button is set to state
-    if (e.target.checked)
-      this.setState({ selectedOu: e.target.value });
-  }
-
-  //'adminDeleteRole', 'adminUpdateRole', 'adminInsertRole' change the state value for conditional rendering
-  adminDeleteRole ()
-  {
-    this.setState(prevState => ({ deletebtn: !prevState.deletebtn }));
-  }
-
-  adminUpdateRole ()
-  {
-    this.setState(prevState => ({ updatebtn: !prevState.updatebtn }));
-  }
-
-  adminInsertRole ()
-  {
-    this.setState(prevState =>({ insertbtn: !prevState.insertbtn }));
-  }
-
-  handleOuSubmit (e)
+  handleOuDelete (e)
   {
     //function to delete ou from user repository
     e.preventDefault();
@@ -241,16 +182,9 @@ class App extends React.Component
     }).then(res => res.json()).then(data => this.setState({ deleteOuMsg: data }))
   }
 
-  ouDelChange (e)
+  handleDivisionSubmit (e)
   {
-    //the checked ou to be deleted from radio button is set to state onchange
-    if (e.target.checked)
-      this.setState({ deleteOu: e.target.value });
-  }
-
-  handleUpdateSubmit (e)
-  {
-    //method below adds division to users ou divisions
+    //method below adds division to users ou
     e.preventDefault();
 
     const obj = {
@@ -268,25 +202,7 @@ class App extends React.Component
     }).then(res => res.json()).then(data => this.setState({ updateDivMsg: data }));
   }
 
-  handleOuChange (e)
-  {
-    //onchange of ou, state is set, and value is used to query which division in ou to delete in the method above 
-    if (e.target.checked)
-      this.setState({ updateOu: e.target.value });
-  }
-
-  handleDivisionChange (e)
-  {
-    //code below handle onchange of division checkbox
-    if (e.target.checked)
-      //state array is set with each checkbox clicked
-      this.setState({ updateDivs: [...this.state.updateDivs, e.target.value] });
-    else
-      //setstate below removes any duplicate divisions clicked
-      this.setState({ updateDivs: this.state.updateDivs.filter(d => d !== e.target.value) });
-  }
-
-  adminSubmit (e)
+  addNewRoles (e)
   //method below adds new ou and divisions (if it was empty before) to database
   {
     e.preventDefault();
@@ -322,58 +238,7 @@ class App extends React.Component
     }).then(res => res.json()).then(data => this.setState({ insertRoleMsg: data }));
   }
 
-  handleOpinionChange (e)
-  {
-    if (e.target.checked)
-    //this sets the state object to the checkboxes clicked on in the Admin components
-      this.setState({ opinion: { ...this.state.opinion, ou: e.target.name, divisions: [...this.state.opinion.divisions, e.target.value] } });
-    else
-    //removes all unchecked values from state object array
-      this.setState({ opinion: { ...this.state.opinion, ou: e.target.name, divisions: this.state.opinion.divisions.filter(d => d !== e.target.value) } });
-  }
-
-  handleHardwareChange (e)
-  {
-    if(e.target.checked)
-    //code below sets state object and array with the clicked checkbox value
-      this.setState({ hardware: { ...this.state.hardware, ou: e.target.name, divisions: [...this.state.hardware.divisions, e.target.value] } });
-    else
-    //code below removes unchecked checkbox values from state object array
-      this.setState({ hardware: { ...this.state.hardware, ou: e.target.name, divisions: this.state.hardware.divisions.filter(d => d !== e.target.value) } });
-  }
-
-  handleSoftwareChange (e)
-  {
-    if (e.target.checked)
-    //code below sets state object and state object array with clicked checkboxes
-      this.setState({ software: { ...this.state.software, ou: e.target.name, divisions: [...this.state.software.divisions, e.target.value] } });
-    else
-      this.setState({ software: { ...this.state.software, ou: e.target.name, divisions: this.state.software.divisions.filter(d => d !== e.target.value) } });
-  }
-
-  handleNewsChange (e)
-  {
-    if (e.target.checked)
-      this.setState({ news: { ...this.state.news, ou: e.target.name, divisions: [...this.state.news.divisions, e.target.value] } });
-    else
-      this.setState({ news: { ...this.state.news, ou: e.target.name, divisions: this.state.news.divisions.filter(d => d !== e.target.value) } });
-  }
-
-  checkAdmin ()
-  {
-    //code below checks if user had admin rights and sets state with response and status value
-    fetch('/authadmin', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + this.state.data.token
-      }
-    }).then(res => res.json().then(data => this.setState({ adminstat: res.status, admin: data })));
-
-    //since code above is executed on button click, state is set opposite its value for conditional rendering
-    this.setState(prevState => ({ adminbtn: !prevState.adminbtn }));
-  }
-
-  handleUpdate (e)
+  handleCredentialUpdate (e)
   {
     //code below updates credentials
     e.preventDefault();
@@ -388,6 +253,20 @@ class App extends React.Component
       },
       body: JSON.stringify(dataToUpdate)
     }).then(res => res.json()).then(data => this.setState({ update: data }));
+  }
+
+  checkAdmin ()
+  {
+    //code below checks if user had admin rights and sets state with response and status value
+    fetch('/authadmin', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + this.state.data.token
+      }
+    }).then(res => res.json().then(data => this.setState({ adminstat: res.status, admin: data })));
+
+    //since code above is executed on button click, state is set opposite its value for conditional rendering
+    this.setState(prevState => ({ adminbtn: !prevState.adminbtn }));
   }
 
   checkManager ()
@@ -443,19 +322,158 @@ class App extends React.Component
       body: JSON.stringify(obj)
     }).then(res => res.json()).then(data => this.setState({ signup: data }));
   }
+
+  divisionSelected (e)
+  {
+    //if radio button is clicked 'onchange', the value is set to state and used to call the api in the method above
+    if (e.target.checked)
+      this.setState({ checkedDiv: e.target.value });
+  }
+
+  //both 'showDivisionCreds' and 'editCredsBtn' are set contrary to their state value onclick
+  showDivisionCreds ()
+  {
+    this.setState(prevState => ({ viewcredbtn: !prevState.viewcredbtn }))
+  }
+
+  editCredsBtn ()
+  {
+    this.setState(prevState => ({ updatecredbtn: !prevState.updatecredbtn }))
+  }
+
+  handleAdminPermission (e)
+  {
+    //onchange of radio button, the checked value is set to state
+    if (e.target.checked)
+      this.setState({ adminperm: e.target.value });
+  }
+
+  handleManagerPermission (e)
+  {
+    //onchange of radio button, the checked value is set to state
+    if (e.target.checked)
+      this.setState({ managerperm: e.target.value });
+  }
+
+  //onclick of button, state is set opposite its value for conditional rendering
+  permissionsBtn ()
+  {
+    this.setState(prevState => ({ permissionbtn: !prevState.permissionbtn }));
+  }
+
+  handleOuSelection (e)
+  {
+    //onchange, the ou selected from radio button is set to state
+    if (e.target.checked)
+      this.setState({ selectedOu: e.target.value });
+  }
+
+  //'adminDeleteRole', 'adminUpdateRole', 'adminInsertRole' change the state value for conditional rendering
+  adminDeleteRole ()
+  {
+    this.setState(prevState => ({ deletebtn: !prevState.deletebtn }));
+  }
+
+  adminUpdateRole ()
+  {
+    this.setState(prevState => ({ updatebtn: !prevState.updatebtn }));
+  }
+
+  adminInsertRole ()
+  {
+    this.setState(prevState =>({ insertbtn: !prevState.insertbtn }));
+  }
+
+  ouDelChange (e)
+  {
+    //the checked ou to be deleted from radio button is set to state onchange
+    if (e.target.checked)
+      this.setState({ deleteOu: e.target.value });
+  }
+
+  handleOuChange (e)
+  {
+    //onchange of ou, state is set, and value is used to query which division in ou to delete in the method above 
+    if (e.target.checked)
+      this.setState({ updateOu: e.target.value });
+  }
+
+  handleDivisionChange (e)
+  {
+    //code below handle onchange of division checkbox
+    if (e.target.checked)
+      //state array is set with each checkbox clicked
+      this.setState({ updateDivs: [...this.state.updateDivs, e.target.value] });
+    else
+      //setstate below removes any duplicate divisions clicked
+      this.setState({ updateDivs: this.state.updateDivs.filter(d => d !== e.target.value) });
+  }
+
+  /*
+    the 4 functions below are for adding new roles to a users record
+  */
+
+  handleOpinionChange (e)
+  {
+    if (e.target.checked)
+    //this sets the state object to the checkboxes clicked on in the Admin components
+      this.setState({ opinion: { ...this.state.opinion, ou: e.target.name, divisions: [...this.state.opinion.divisions, e.target.value] } });
+    else
+    //removes all unchecked values from state object array
+      this.setState({ opinion: { ...this.state.opinion, ou: e.target.name, divisions: this.state.opinion.divisions.filter(d => d !== e.target.value) } });
+  }
+
+  handleHardwareChange (e)
+  {
+    if(e.target.checked)
+    //code below sets state object and array with the clicked checkbox value
+      this.setState({ hardware: { ...this.state.hardware, ou: e.target.name, divisions: [...this.state.hardware.divisions, e.target.value] } });
+    else
+    //code below removes unchecked checkbox values from state object array
+      this.setState({ hardware: { ...this.state.hardware, ou: e.target.name, divisions: this.state.hardware.divisions.filter(d => d !== e.target.value) } });
+  }
+
+  handleSoftwareChange (e)
+  {
+    if (e.target.checked)
+    //code below sets state object and state object array with clicked checkboxes
+      this.setState({ software: { ...this.state.software, ou: e.target.name, divisions: [...this.state.software.divisions, e.target.value] } });
+    else
+      this.setState({ software: { ...this.state.software, ou: e.target.name, divisions: this.state.software.divisions.filter(d => d !== e.target.value) } });
+  }
+
+  handleNewsChange (e)
+  {
+    if (e.target.checked)
+      this.setState({ news: { ...this.state.news, ou: e.target.name, divisions: [...this.state.news.divisions, e.target.value] } });
+    else
+      this.setState({ news: { ...this.state.news, ou: e.target.name, divisions: this.state.news.divisions.filter(d => d !== e.target.value) } });
+  }
   
   render ()
   {
     return (
       <Router>
         <div>
-          <Link to= '/'> <button>Home</button> </Link>
-          <Link to = '/sign'> <button>Sign Up</button> </Link>
-          <Link to = '/log'> <button>Login</button> </Link>
+          <Nav>
+            <Nav.Item>
+              <Nav.Link href='/'>Home</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href='/sign'>Signup</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href='/log'>Login</Nav.Link>
+            </Nav.Item>
+          </Nav>
 
           <Routes>
 
-            <Route exact path='/' element = { <img src={logo} className="App-logo" alt="logo" /> } />
+            <Route exact path='/' element = {
+              <div>
+                <img src={logo} className="App-logo" alt="logo" />
+              </div>
+            } />
 
             <Route path='/sign' element={<Signup signUpHandle = { this.handleSignUp } />} />
 
@@ -468,19 +486,23 @@ class App extends React.Component
                 {this.state.data.token &&
                   <div>
 
-                    <button onClick={ this.checkManager }>Manager Dashboard</button>
-                    <button onClick={ this.checkAdmin }>Admin Dashboard</button>
-                    <br /> <br />
+                    <div style={{'marginLeft': '100px'}}>
+                      <Button onClick={ this.checkManager }>Manager Dashboard</Button>
+                      <Button onClick={ this.checkAdmin } style={{'marginLeft': '15px'}}>Admin Dashboard</Button>
+                    </div>
+                    <br />
 
                     {this.state.managerbtn &&
                       <div>
-                          <button onClick={ this.editCredsBtn }>Update Credentials</button>
-                          <button onClick={ this.showDivisionCreds }>View division credentials</button>
+                          <div style={{'marginLeft': '100px'}}>
+                            <Button onClick={ this.editCredsBtn }>Update Credentials</Button>
+                            <Button onClick={ this.showDivisionCreds } style={{'marginLeft': '15px'}}>View division credentials</Button>
+                          </div>
 
                           {this.state.updatecredbtn &&
                             <ManagerAuth 
                               response = { this.state.manager }
-                              updateCredentials = { this.handleUpdate }
+                              updateCredentials = { this.handleCredentialUpdate }
                               resStatus = { this.state.stat }
                               message = { this.state.update }
                             />
@@ -500,10 +522,12 @@ class App extends React.Component
 
                     {this.state.adminbtn &&
                       <div>
-                        <button onClick={ this.adminInsertRole }>Add new role</button>
-                        <button onClick={ this.adminUpdateRole }>Update role</button>
-                        <button onClick={ this.adminDeleteRole }>Delete from database</button>
-                        <button onClick={ this.permissionsBtn }>Change user permissions</button>
+                        <div style={{'marginLeft': '100px'}}>
+                          <Button onClick={ this.adminInsertRole }>Add new role</Button>
+                          <Button onClick={ this.adminUpdateRole } style={{'marginLeft': '15px'}}>Update role</Button>
+                          <Button onClick={ this.adminDeleteRole } style={{'marginLeft': '15px'}}>Delete from database</Button>
+                          <Button onClick={ this.permissionsBtn } style={{'marginLeft': '15px'}}>Change user permissions</Button>
+                        </div>
 
                         {this.state.permissionbtn &&
                           <ChangeRoles
@@ -522,7 +546,7 @@ class App extends React.Component
                           <AdminDashboard
                             resp = { this.state.admin }
                             status = { this.state.adminstat }
-                            submit = { this.adminSubmit }
+                            submit = { this.addNewRoles }
                             newsChange = { this.handleNewsChange }
                             softwareChange = { this.handleSoftwareChange }
                             hardwareChange = { this.handleHardwareChange }
@@ -538,7 +562,7 @@ class App extends React.Component
                               msg = { this.state.admin }
                               divChange = { this.handleDivisionChange }
                               ouAdd = { this.handleOuChange }
-                              updateSubmission = { this.handleUpdateSubmit }
+                              updateSubmission = { this.handleDivisionSubmit }
                               message = { this.state.updateDivMsg }
                             />
 
@@ -557,7 +581,7 @@ class App extends React.Component
                             status = { this.state.adminstat }
                             msg = { this.state.admin }
                             delOu = { this.ouDelChange }
-                            deleteOu = { this.handleOuSubmit }
+                            deleteOu = { this.handleOuDelete }
                             message = { this.state.deleteOuMsg }
                           />
                         }

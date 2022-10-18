@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 class AddOu extends React.Component
 {
@@ -9,23 +10,41 @@ class AddOu extends React.Component
         if (status === 200)
         {
             return (
-                <div>
-                    <h2>Select OU to insert to record</h2>
-                    <fieldset>
-                        <form onSubmit={ this.props.insertOu }>
-                            <label>Enter username of user to update: </label>
-                            <input type='text' name='username'></input>
-                            <fieldset>
-                            <legend>Select OU to delete</legend>
-                                <label htmlFor='ou-a'> <input onChange={ this.props.ouSelector } id='ou-a' type='radio' name='ou' value='News Management'></input> News Management </label>
-                                <label htmlFor='ou-b'> <input onChange={ this.props.ouSelector } id='ou-b' type='radio' name='ou' value='Software Reviews'></input> Software Reviews </label>
-                                <label htmlFor='ou-c'> <input onChange={ this.props.ouSelector } id='ou-c' type='radio' name='ou' value='Hardware Reviews'></input> Hardware Reviews </label>
-                                <label htmlFor='ou-d'> <input onChange={ this.props.ouSelector } id='ou-d' type='radio' name='ou' value='Opinion Pieces'></input> Opinion Pieces </label>
-                            </fieldset>
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                    </fieldset>
-                    <h3>{ this.props.message.msg }</h3>
+                <div style={{'marginLeft': '50px'}}>
+                    <h2 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>Select OU to insert to record</h2>
+                    <Form onSubmit={ this.props.insertOu }>
+
+                        <Form.Group as={Row} className='mb-3'>
+                            <Form.Label column sm={2}>Enter username of user to update: </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control type='text' name='username'></Form.Control>
+                            </Col>
+                        </Form.Group>
+
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Select OU to delete</Form.Label>
+                                    <Col sm={6}>
+                                        <Form.Check onChange={ this.props.ouSelector } label='News Management' type='radio' name='ou' value='News Management'></Form.Check>
+                                        <Form.Check onChange={ this.props.ouSelector } label='Software Reviews' type='radio' name='ou' value='Software Reviews'></Form.Check>
+                                        <Form.Check onChange={ this.props.ouSelector } label='Hardware Reviews' type='radio' name='ou' value='Hardware Reviews'></Form.Check>
+                                        <Form.Check onChange={ this.props.ouSelector } label='Opinion Pieces' type='radio' name='ou' value='Opinion Pieces'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
+
+                        <Form.Group as={Row} className='mb-3'>
+                                <Col sm={{ span: 10, offset: 3 }}>
+                                    <Button type='submit'>Submit</Button>
+                                </Col>
+                        </Form.Group>
+
+                    </Form>
+
+                    {this.props.message &&
+                        <Alert variant="info">{ this.props.message.msg }</Alert>
+                    }
+
                 </div>
             )
         }
@@ -33,7 +52,7 @@ class AddOu extends React.Component
         {
             return (
                 <div>
-                    <h3>{ message.msg }</h3>
+                    <Alert variant="danger">{ message.msg }</Alert>
                 </div>
             )
         }

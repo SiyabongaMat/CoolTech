@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap'
 
 class UpdateRoles extends React.Component
 {
@@ -9,41 +10,60 @@ class UpdateRoles extends React.Component
         if (status === 200)
         {
             return (
-                <div>
-                    <h1>{ message.msg }</h1>
-                    <h2>Add new division(s) to user OU roles</h2>
-                    <fieldset>
-                        <form onSubmit={ this.props.updateSubmission }>
+                <div style={{'marginLeft': '50px', 'marginTop': '25px'}}>
+                    <h1 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>{ message.msg }</h1>
+                    <h2 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>Add new division(s) to user OU roles</h2>
 
-                            <label>Enter username of user to update: </label>
-                            <input type='text' name='username'></input>
+                    <Form onSubmit={ this.props.updateSubmission }>
 
-                            <fieldset>
-                            <legend>Select OU to update database</legend>
-                                <label htmlFor='role-a'> <input onChange={ this.props.ouAdd } id='role-a' type='radio' name='ou' value='News Management'></input> News Management </label>
-                                <label htmlFor='role-b'> <input onChange={ this.props.ouAdd } id='role-b' type='radio' name='ou' value='Software Reviews'></input> Software Reviews </label>
-                                <label htmlFor='role-c'> <input onChange={ this.props.ouAdd } id='role-c' type='radio' name='ou' value='Hardware Reviews'></input> Hardware Reviews </label>
-                                <label htmlFor='role-d'> <input onChange={ this.props.ouAdd } id='role-d' type='radio' name='ou' value='Opinion Pieces'></input> Opinion Pieces </label>
-                            </fieldset>
+                        <Form.Group as={Row} className='mb-3'>
+                            <Form.Label column sm={2}>Enter username of user to update: </Form.Label>
+                            <Col sm={6}>
+                                <Form.Control type='text' name='username'></Form.Control>
+                            </Col>
+                        </Form.Group>
 
-                            <fieldset>
-                            <legend>Select Division(s) to add to database</legend>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Writing'></input> Writing </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Editing'></input> Editing </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Publishing'></input> Publishing </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Finance'></input> Finance </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='IT'></input> IT </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Content Manager'></input> Content Manager </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Social Media'></input> Social Media </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Marketing'></input> Marketing </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Graphics'></input> Graphics </label>
-                                <label> <input onChange={ this.props.divChange } type='checkbox' name='News Management' value='Business Analyst'></input> Business Analyst </label>
-                            </fieldset>
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Select OU to update database</Form.Label>
+                                    <Col sm={3}>
+                                        <Form.Check onChange={ this.props.ouAdd } label='News Management' type='radio' name='ou' value='News Management'></Form.Check>
+                                        <Form.Check onChange={ this.props.ouAdd } label='Software Reviews' type='radio' name='ou' value='Software Reviews'></Form.Check>
+                                        <Form.Check onChange={ this.props.ouAdd } label='Hardware Reviews' type='radio' name='ou' value='Hardware Reviews'></Form.Check>
+                                        <Form.Check onChange={ this.props.ouAdd } label='Opinion Pieces' type='radio' name='ou' value='Opinion Pieces'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
 
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                    </fieldset>
-                    <h3>{ this.props.message.msg }</h3>
+                        <fieldset>
+                            <Form.Group as={Row} className='mb-3'>
+                                <Form.Label as='legend' column sm={3}>Select Division(s) to add to database</Form.Label>
+                                    <Col sm={3}>
+                                        <Form.Check onChange={ this.props.divChange } label='Writing' type='checkbox' name='News Management' value='Writing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Editing' type='checkbox' name='News Management' value='Editing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Publishing' type='checkbox' name='News Management' value='Publishing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Finance' type='checkbox' name='News Management' value='Finance'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='IT' type='checkbox' name='News Management' value='IT'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Content Manager' type='checkbox' name='News Management' value='Content Manager'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Social Media' type='checkbox' name='News Management' value='Social Media'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Marketting' type='checkbox' name='News Management' value='Marketing'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Graphics' type='checkbox' name='News Management' value='Graphics'></Form.Check>
+                                        <Form.Check onChange={ this.props.divChange } label='Business Analyst' type='checkbox' name='News Management' value='Business Analyst'></Form.Check>
+                                    </Col>
+                            </Form.Group>
+                        </fieldset>
+
+                        <Form.Group as={Row} className='mb-3'>
+                                <Col sm={{ span: 10, offset: 3 }}>
+                                    <Button type='submit'>Submit</Button>
+                                </Col>
+                        </Form.Group>
+                    </Form>
+
+                    {this.props.message &&
+                        <Alert variant="info">{ this.props.message.msg }</Alert>
+                    }
+
                 </div>
             );
         }

@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Button, Col, Row, Alert } from 'react-bootstrap';
 
 class ManagerAuth extends React.Component
 {
@@ -10,19 +11,35 @@ class ManagerAuth extends React.Component
         if (status === 200)
         {
             return (
-                <div>
-                    <h1>{ res.msg }</h1>
-                    <h2>Update credentials</h2>
-                    <fieldset>
-                        <form onSubmit={ this.props.updateCredentials }>
-                            <label>Enter username to update: </label>
-                            <input type='text' name='username'></input>
-                            <label>Enter new username: </label>
-                            <input type='text' name='newusername'></input>
-                            <input type='submit' value='Submit'></input>
-                        </form>
-                    </fieldset>
-                    <p>{ this.props.message.msg }</p>
+                <div style={{'marginLeft': '50px', 'marginTop': '25px'}}>
+
+                    <h1 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>{ res.msg }</h1>
+                    <h2 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>Update credentials</h2>
+
+                    <Form onSubmit={ this.props.updateCredentials }>
+
+                        <Form.Label column sm={3}>Enter username to update: </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control type='text' name='username'></Form.Control>
+                        </Col>
+
+                        <Form.Label column sm={3}>Enter new username: </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control type='text' name='newusername'></Form.Control>
+                        </Col>
+                        
+                        <Form.Group as={Row} className='mb-3' style={{'marginTop': '15px'}}>
+                            <Col sm={{ span: 10 }}>
+                                <Button type='submit'>Submit</Button>
+                            </Col>
+                        </Form.Group>
+
+                    </Form>
+
+                    {this.props.message &&
+                        <Alert variant="info">{ this.props.message.msg }</Alert>
+                    }
+
                 </div>
             );
         }
@@ -30,7 +47,7 @@ class ManagerAuth extends React.Component
         {
             return (
                 <div>
-                    <p>{ res.msg }</p>
+                    <Alert variant="danger">{ res.msg }</Alert>
                 </div>
             );
         }

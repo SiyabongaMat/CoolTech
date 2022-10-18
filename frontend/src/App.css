@@ -17,3 +17,13 @@
       transform: rotate(360deg);
     }
 }
+
+img {
+  position: fixed;
+  top: 22%;
+  left: 36%;
+}
+
+.login {
+  margin-left: 10%;
+}
