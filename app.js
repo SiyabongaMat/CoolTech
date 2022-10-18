@@ -10,7 +10,7 @@ const controller = require('./controllers/log.controller');
 //function that connects to the database collection
 function mongoDbConnector ()
 {
-    mongoose.connect("mongodb+srv://siya:daboss@cluster0.syorgvs.mongodb.net/finalTask?retryWrites=true&w=majority", (err) => {
+    mongoose.connect("input your mongodb link", (err) => {
         if (err) throw err;
         else console.log("Connection valid");
     });
