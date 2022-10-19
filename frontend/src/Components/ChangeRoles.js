@@ -74,7 +74,7 @@ class ChangeRoles extends React.Component
                     </Form>
 
                     {this.props.adminMessage &&
-                        <Alert variant="info">{ this.props.adminMessage.msg }</Alert>
+                        <Alert style={{'width': '1000px', 'textAlign': 'center'}} variant="info">{ this.props.adminMessage.msg }</Alert>
                     }
 
                 </div>
@@ -84,7 +84,7 @@ class ChangeRoles extends React.Component
         {
             return (
                 <div>
-                    <Alert variant="danger">{ msg.msg }</Alert>
+                    <Alert style={{'width': '1000px', 'textAlign': 'center'}} variant="danger">{ msg.msg }</Alert>
                 </div>
             )
         }

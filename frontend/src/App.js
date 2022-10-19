@@ -436,7 +436,7 @@ class App extends React.Component
               <div> 
                 <Login  loginHandle = { this.handleLogin } /> 
                 <br /> <br /> 
-                <h4>{ this.state.data.msg }</h4>
+                <h4 style={{'marginLeft': '100px'}}>{ this.state.data.msg }</h4>
 
                 {this.state.data.token &&
                   <div>
@@ -448,7 +448,7 @@ class App extends React.Component
                     <br />
 
                     {this.state.managerbtn &&
-                      <div>
+                      <div style={{'marginLeft': '100px'}}>
 
                           <Tabs defaultActiveKey="update">
                             <Tab eventKey='update' title='Update Credentials'>
@@ -474,7 +474,7 @@ class App extends React.Component
                     }
 
                     {this.state.adminbtn &&
-                      <div>
+                      <div style={{'marginLeft': '100px'}}>
 
                         <Tabs defaultActiveKey='insert'>
 

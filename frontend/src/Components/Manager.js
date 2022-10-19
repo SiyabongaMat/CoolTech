@@ -37,7 +37,7 @@ class ManagerAuth extends React.Component
                     </Form>
 
                     {this.props.message &&
-                        <Alert variant="info">{ this.props.message.msg }</Alert>
+                        <Alert style={{'width': '1000px', 'textAlign': 'center'}} variant="info">{ this.props.message.msg }</Alert>
                     }
 
                 </div>
@@ -47,7 +47,7 @@ class ManagerAuth extends React.Component
         {
             return (
                 <div>
-                    <Alert variant="danger">{ res.msg }</Alert>
+                    <Alert style={{'width': '1000px', 'textAlign': 'center'}} variant="danger">{ res.msg }</Alert>
                 </div>
             );
         }
