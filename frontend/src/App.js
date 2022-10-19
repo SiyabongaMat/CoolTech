@@ -12,7 +12,7 @@ import DeleteRoles from './Components/DeleteRole';
 import AddOu from './Components/Insert';
 import ChangeRoles from './Components/ChangeRoles';
 import ViewDivisions from './Components/View';
-import { Nav, Button } from 'react-bootstrap';
+import { Nav, Button, Tabs, Tab } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -22,14 +22,8 @@ class App extends React.Component
   {
     super(props);
     this.state = {
-      insertbtn: false,
-      updatebtn: false,
-      deletebtn: false,
       adminbtn: false,
       managerbtn: false,
-      permissionbtn: false,
-      updatecredbtn: false,
-      viewcredbtn: false,
       signup: '',
       login: '',
       data: '',
@@ -75,18 +69,12 @@ class App extends React.Component
     this.handleDivisionSubmit = this.handleDivisionSubmit.bind(this);
     this.ouDelChange = this.ouDelChange.bind(this);
     this.handleOuDelete = this.handleOuDelete.bind(this);
-    this.adminInsertRole = this.adminInsertRole.bind(this);
-    this.adminUpdateRole = this.adminUpdateRole.bind(this);
-    this.adminDeleteRole = this.adminDeleteRole.bind(this);
     this.handleOuSelection = this.handleOuSelection.bind(this);
     this.handleInsertOu = this.handleInsertOu.bind(this);
-    this.permissionsBtn = this.permissionsBtn.bind(this);
     this.handleManagerPermission = this.handleManagerPermission.bind(this);
     this.handleAdminPermission = this.handleAdminPermission.bind(this);
     this.adminRoleSubmit = this.adminRoleSubmit.bind(this);
     this.managerRoleSubmit = this.managerRoleSubmit.bind(this);
-    this.editCredsBtn = this.editCredsBtn.bind(this);
-    this.showDivisionCreds = this.showDivisionCreds.bind(this);
     this.divisionSelected = this.divisionSelected.bind(this);
     this.showDivision = this.showDivision.bind(this);
   }
@@ -330,17 +318,6 @@ class App extends React.Component
       this.setState({ checkedDiv: e.target.value });
   }
 
-  //both 'showDivisionCreds' and 'editCredsBtn' are set contrary to their state value onclick
-  showDivisionCreds ()
-  {
-    this.setState(prevState => ({ viewcredbtn: !prevState.viewcredbtn }))
-  }
-
-  editCredsBtn ()
-  {
-    this.setState(prevState => ({ updatecredbtn: !prevState.updatecredbtn }))
-  }
-
   handleAdminPermission (e)
   {
     //onchange of radio button, the checked value is set to state
@@ -355,33 +332,11 @@ class App extends React.Component
       this.setState({ managerperm: e.target.value });
   }
 
-  //onclick of button, state is set opposite its value for conditional rendering
-  permissionsBtn ()
-  {
-    this.setState(prevState => ({ permissionbtn: !prevState.permissionbtn }));
-  }
-
   handleOuSelection (e)
   {
     //onchange, the ou selected from radio button is set to state
     if (e.target.checked)
       this.setState({ selectedOu: e.target.value });
-  }
-
-  //'adminDeleteRole', 'adminUpdateRole', 'adminInsertRole' change the state value for conditional rendering
-  adminDeleteRole ()
-  {
-    this.setState(prevState => ({ deletebtn: !prevState.deletebtn }));
-  }
-
-  adminUpdateRole ()
-  {
-    this.setState(prevState => ({ updatebtn: !prevState.updatebtn }));
-  }
-
-  adminInsertRole ()
-  {
-    this.setState(prevState =>({ insertbtn: !prevState.insertbtn }));
   }
 
   ouDelChange (e)
@@ -494,69 +449,62 @@ class App extends React.Component
 
                     {this.state.managerbtn &&
                       <div>
-                          <div style={{'marginLeft': '100px'}}>
-                            <Button onClick={ this.editCredsBtn }>Update Credentials</Button>
-                            <Button onClick={ this.showDivisionCreds } style={{'marginLeft': '15px'}}>View division credentials</Button>
-                          </div>
 
-                          {this.state.updatecredbtn &&
-                            <ManagerAuth 
-                              response = { this.state.manager }
-                              updateCredentials = { this.handleCredentialUpdate }
-                              resStatus = { this.state.stat }
-                              message = { this.state.update }
-                            />
-                          }
+                          <Tabs defaultActiveKey="update">
+                            <Tab eventKey='update' title='Update Credentials'>
+                              <ManagerAuth 
+                                response = { this.state.manager }
+                                updateCredentials = { this.handleCredentialUpdate }
+                                resStatus = { this.state.stat }
+                                message = { this.state.update }
+                              />
+                            </Tab>
+                            <Tab eventKey='view' title='View Repository'>
+                              <ViewDivisions
+                                resStatus = { this.state.stat }
+                                response = { this.state.manager }
+                                divChange = { this.divisionSelected }
+                                divisionView = { this.showDivision }
+                                output = { this.state.divisionOutput }
+                              />
+                            </Tab>
+                          </Tabs>
 
-                          {this.state.viewcredbtn &&
-                            <ViewDivisions
-                              resStatus = { this.state.stat }
-                              response = { this.state.manager }
-                              divChange = { this.divisionSelected }
-                              divisionView = { this.showDivision }
-                              output = { this.state.divisionOutput }
-                            />
-                          }
                       </div>
                     }
 
                     {this.state.adminbtn &&
                       <div>
-                        <div style={{'marginLeft': '100px'}}>
-                          <Button onClick={ this.adminInsertRole }>Add new role</Button>
-                          <Button onClick={ this.adminUpdateRole } style={{'marginLeft': '15px'}}>Update role</Button>
-                          <Button onClick={ this.adminDeleteRole } style={{'marginLeft': '15px'}}>Delete from database</Button>
-                          <Button onClick={ this.permissionsBtn } style={{'marginLeft': '15px'}}>Change user permissions</Button>
-                        </div>
 
-                        {this.state.permissionbtn &&
-                          <ChangeRoles
-                            status = { this.state.adminstat }
-                            msg = { this.state.admin }
-                            adminRadioChange = { this.handleAdminPermission }
-                            managerRadioChange = { this.handleManagerPermission }
-                            adminChange = { this.adminRoleSubmit }
-                            managerChange = { this.managerRoleSubmit }
-                            adminMessage = { this.state.adminmsg }
-                            managerMessage = { this.state.managermsg }
-                          />
-                        }
+                        <Tabs defaultActiveKey='insert'>
 
-                        {this.state.insertbtn &&
-                          <AdminDashboard
-                            resp = { this.state.admin }
-                            status = { this.state.adminstat }
-                            submit = { this.addNewRoles }
-                            newsChange = { this.handleNewsChange }
-                            softwareChange = { this.handleSoftwareChange }
-                            hardwareChange = { this.handleHardwareChange }
-                            opinionChange = { this.handleOpinionChange }
-                            message = { this.state.insertRoleMsg }
-                          />
-                        }
+                          <Tab eventKey='updateRoles' title='Change user roles'>
+                            <ChangeRoles
+                              status = { this.state.adminstat }
+                              msg = { this.state.admin }
+                              adminRadioChange = { this.handleAdminPermission }
+                              managerRadioChange = { this.handleManagerPermission }
+                              adminChange = { this.adminRoleSubmit }
+                              managerChange = { this.managerRoleSubmit }
+                              adminMessage = { this.state.adminmsg }
+                              managerMessage = { this.state.managermsg }
+                            />
+                          </Tab>
 
-                        {this.state.updatebtn &&
-                          <div>
+                          <Tab eventKey='insert' title='Insert new data'>
+                            <AdminDashboard
+                              resp = { this.state.admin }
+                              status = { this.state.adminstat }
+                              submit = { this.addNewRoles }
+                              newsChange = { this.handleNewsChange }
+                              softwareChange = { this.handleSoftwareChange }
+                              hardwareChange = { this.handleHardwareChange }
+                              opinionChange = { this.handleOpinionChange }
+                              message = { this.state.insertRoleMsg }
+                            />
+                          </Tab>
+
+                          <Tab eventKey='addDiv' title='Add division(s) to record'>
                             <UpdateRoles 
                               status = { this.state.adminstat }
                               msg = { this.state.admin }
@@ -565,7 +513,9 @@ class App extends React.Component
                               updateSubmission = { this.handleDivisionSubmit }
                               message = { this.state.updateDivMsg }
                             />
+                          </Tab>
 
+                          <Tab eventKey='addOu' title='Add Ou to record'>
                             <AddOu
                               status = { this.state.adminstat }
                               msg = { this.state.admin }
@@ -573,18 +523,19 @@ class App extends React.Component
                               ouSelector = { this.handleOuSelection }
                               insertOu = { this.handleInsertOu }
                             />
-                          </div>
-                        }
+                          </Tab>
 
-                        {this.state.deletebtn &&
-                          <DeleteRoles
-                            status = { this.state.adminstat }
-                            msg = { this.state.admin }
-                            delOu = { this.ouDelChange }
-                            deleteOu = { this.handleOuDelete }
-                            message = { this.state.deleteOuMsg }
-                          />
-                        }
+                          <Tab eventKey='delete' title='Delete division'>
+                            <DeleteRoles
+                              status = { this.state.adminstat }
+                              msg = { this.state.admin }
+                              delOu = { this.ouDelChange }
+                              deleteOu = { this.handleOuDelete }
+                              message = { this.state.deleteOuMsg }
+                            />
+                          </Tab>
+                        </Tabs>
+
                       </div>
                     }
 

@@ -11,6 +11,7 @@ class AddOu extends React.Component
         {
             return (
                 <div style={{'marginLeft': '50px'}}>
+                    <h1 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>{ message.msg }</h1>
                     <h2 style={{'textAlign': 'center', 'fontFamily': 'monospace'}}>Select OU to insert to record</h2>
                     <Form onSubmit={ this.props.insertOu }>
 
