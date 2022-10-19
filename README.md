@@ -28,6 +28,41 @@ npm start
 ```
 To run both these projects. If the express app is correctly running, 'Server started' should be printed to the console. The react app will immediately open your default browser. I would highly advise that you first begin by starting the express app before the react app. This is because the react app is dependant on the express app to run perfectly.
 
+# Running the program
+
+If the program is running successfully the program should do this...
+
+To signup to the database the screen below should display to you. Be sure to click the `signup` link in the top navigation bar
+![Sign up](signup.png)
+
+To login to the database, the following screenshot should appear - cick the `login` button link in the navigation bar
+![Log in](login.png)
+
+If the user is not successfully logged in the message below should display:
+```
+Username or password entered is not valid.
+```
+
+But if successfully logged in the screenshot page should display this render
+
+![logged in](loggedin.png)
+
+If the user is registered as a normal user, the following screenshots should be displayed, with restrictive messages showing that the user cannot access the content.
+
+#### Manager restriction
+![normal user 1](normaluser1.png)
+
+#### Admin restriction
+![normal user 2](normaluser2.png)
+
+If however the have access to both these resources, the screen should render the following screen for..
+
+#### Manager
+![manager](manager.png)
+
+#### Admin
+![admin](admin.png)
+
 # Additional information
 
 In the `app.js` file, remove the comments in the mongodbConnector() function and add the link to your mongodb database.
