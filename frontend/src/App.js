@@ -1,10 +1,4 @@
 //Program to manage the backend of a blogging site
-/*
-  The compulsory task was broken down into 3 sections, and I figured that each task meant the permissions for each level of roles.
-  The first task for normal/manager/admin users and the second task for managers/admins and the third for admins. The viewing of credentials
-  was in the second task - which was for the managers role, that's why the viewing of a divisions credentials is restricted to managers and 
-  admins and not normal users.
-*/
 
 import logo from './logo.svg';
 import './App.css';
