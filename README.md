@@ -60,8 +60,12 @@ If however the have access to both these resources, the screen should render the
 #### Manager
 ![manager](manager.png)
 
+> The options for manager and shown in the tabs rendered above, viewing the credential repository is open to all users, but editing credentials is **Only** for managers
+
 #### Admin
 ![admin](admin.png)
+
+> The options rendered in the tabs section is commands only accessible for admins
 
 # Additional information
 
