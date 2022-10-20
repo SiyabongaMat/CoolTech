@@ -22,6 +22,7 @@ class App extends React.Component
   {
     super(props);
     this.state = {
+      normalDashboard: false,
       adminbtn: false,
       managerbtn: false,
       signup: '',
@@ -56,6 +57,7 @@ class App extends React.Component
     //list of all the methods to be executed
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.normalUser = this.normalUser.bind(this);
     this.checkManager = this.checkManager.bind(this);
     this.handleCredentialUpdate = this.handleCredentialUpdate.bind(this);
     this.checkAdmin = this.checkAdmin.bind(this);
@@ -272,6 +274,11 @@ class App extends React.Component
     this.setState(prevState => ({ managerbtn: !prevState.managerbtn }));
   }
 
+  normalUser ()
+  {
+    this.setState(prevState => ({ normalDashboard: !prevState.normalDashboard }));
+  }
+
   handleLogin (e)
   {
     e.preventDefault();
@@ -442,10 +449,23 @@ class App extends React.Component
                   <div>
 
                     <div style={{'marginLeft': '100px'}}>
-                      <Button onClick={ this.checkManager }>Manager Dashboard</Button>
+                      <Button onClick={ this.normalUser }>User dashboard</Button>
+                      <Button onClick={ this.checkManager } style={{'marginLeft': '15px'}}>Manager Dashboard</Button>
                       <Button onClick={ this.checkAdmin } style={{'marginLeft': '15px'}}>Admin Dashboard</Button>
                     </div>
                     <br />
+
+                    {this.state.normalDashboard &&
+                      <div style={{'marginLeft': '100px'}}>
+                        <ViewDivisions
+                          resStatus = { this.state.stat }
+                          response = { this.state.manager }
+                          divChange = { this.divisionSelected }
+                          divisionView = { this.showDivision }
+                          output = { this.state.divisionOutput }
+                        />
+                      </div>
+                    }
 
                     {this.state.managerbtn &&
                       <div style={{'marginLeft': '100px'}}>
@@ -457,15 +477,6 @@ class App extends React.Component
                                 updateCredentials = { this.handleCredentialUpdate }
                                 resStatus = { this.state.stat }
                                 message = { this.state.update }
-                              />
-                            </Tab>
-                            <Tab eventKey='view' title='View Repository'>
-                              <ViewDivisions
-                                resStatus = { this.state.stat }
-                                response = { this.state.manager }
-                                divChange = { this.divisionSelected }
-                                divisionView = { this.showDivision }
-                                output = { this.state.divisionOutput }
                               />
                             </Tab>
                           </Tabs>
